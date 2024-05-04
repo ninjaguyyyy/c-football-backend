@@ -1,4 +1,4 @@
-import { BasePaginationRequestDTO } from "shared/dtos/base-pagination-request.dto";
+import { BasePaginationRequestDTO } from "shared/dto/base-pagination-request.dto";
 
 const removeBlacklistFields = (object: unknown, blacklistFields: string[]) => {
   blacklistFields.forEach((field) => delete object[field]);

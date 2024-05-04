@@ -23,8 +23,28 @@ model User {
   @@map(name: "users")
 }
 
+model Product {
+  id         Int    @id @default(autoincrement())
+
+  name        String
+  slug        String  @unique
+  description String
+  price       Float
+  quantity    Int
+  coverImage String @map("cover_image")
+
+  active  Boolean @default(true)
+  deleted Boolean @default(false)
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map(name: "products")
+}
+
 enum Role {
   User
   Admin
   SuperAdmin
 }
+

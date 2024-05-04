@@ -25,3 +25,15 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+//   Nhờ a/c @HaiNHP_Dev_U2 @QuyenTM_Br_U2 confirm có xử lý force logout seller đã bị delete bới admin (liên quan tới bug 993)
+
+// Hiện tại:
+// - Admin xóa seller
+// - Nếu seller đang đăng nhập thì họ vẫn sử dụng chức năng bình thường
+
+// Xử lý cho bug 993:
+// - Admin xóa seller
+// - Tự động logout seller bị xóa đó đi
+
+// https://dipro-vn.backlog.com/view/TRUST-993
