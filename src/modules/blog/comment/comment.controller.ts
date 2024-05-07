@@ -6,9 +6,9 @@ import { CountRequestDTO, ListRequestDTO } from "modules/product/product.dto";
 import { ProductService } from "modules/product/product.service";
 import { Role } from "shared/constants/global.constants";
 
-@ApiTags("Products")
+@ApiTags("comments")
 @Controller("products")
-export class ProductController {
+export class CommentController {
   constructor(private readonly productService: ProductService) {}
 
   @Get("/")
