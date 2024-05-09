@@ -51,9 +51,9 @@ model ProductComment {
   left    Int    @default(0)
   right   Int    @default(0)
 
-  parentId      Int?            @unique @map("parent_id")
-  ParentComment ProductComment? @relation("NestedComment", fields: [parentId], references: [id])
-  SeftComment   ProductComment? @relation("NestedComment")
+  parentId      Int?             @map("parent_id")
+  ParentComment ProductComment?  @relation("NestedComment", fields: [parentId], references: [id])
+  SeftComment   ProductComment[] @relation("NestedComment")
 
   userId Int  @map("user_id")
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -72,5 +72,4 @@ model ProductComment {
 enum Role {
   User
   Admin
-  SuperAdmin
 }

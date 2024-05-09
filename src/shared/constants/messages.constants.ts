@@ -28,4 +28,5 @@ export const MESSAGES = {
   CAN_NOT_UPLOAD_FILE: "Can not upload file",
 
   NOT_FOUND_PRODUCT: "Product is not found",
+  NOT_FOUND_COMMENT: "Comment is not found",
 };

@@ -10,7 +10,7 @@ import { RedisModule } from "services/redis/redis.module";
 
 const routes: Routes = [
   {
-    path: "/products/:id",
+    path: "/products/:productId",
     children: [
       {
         path: "/",
