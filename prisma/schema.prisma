@@ -20,6 +20,8 @@ model User {
   createdAt       DateTime         @default(now()) @map(name: "created_at")
   updatedAt       DateTime         @updatedAt @map(name: "updated_at")
   Comment         ProductComment[]
+  Notification    Notification[]
+  Order           Order[]
 
   @@map(name: "users")
 }
@@ -37,9 +39,10 @@ model Product {
   active  Boolean @default(true)
   deleted Boolean @default(false)
 
-  createdAt DateTime         @default(now()) @map(name: "created_at")
-  updatedAt DateTime         @updatedAt @map("updated_at")
-  Comment   ProductComment[]
+  createdAt    DateTime         @default(now()) @map(name: "created_at")
+  updatedAt    DateTime         @updatedAt @map("updated_at")
+  Comment      ProductComment[]
+  OrderProduct OrderProduct[]
 
   @@map(name: "products")
 }
@@ -69,7 +72,74 @@ model ProductComment {
   @@map(name: "product_comments")
 }
 
+model Notification {
+  id Int @id @default(autoincrement())
+
+  type       NotiType
+  content    String
+  receiverId Int?     @map("receiver_id")
+  Receiver   User?    @relation(fields: [receiverId], references: [id], onDelete: Cascade)
+
+  options Json?
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map(name: "notifications")
+}
+
+model Order {
+  id     Int  @id @default(autoincrement())
+  userId Int  @map("user_id")
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  totalAmount   Float         @map("total_amount")
+  status        OrderStatus   @default(Successful)
+  paymentStatus PaymentStatus @default(Pending) @map("payment_status")
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  OrderProduct OrderProduct[]
+
+  @@map(name: "orders")
+}
+
+model OrderProduct {
+  orderId   Int     @map("order_id")
+  Order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int     @map("product_id")
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  quantity Int
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([orderId, productId])
+  @@map(name: "orders_products")
+}
+
 enum Role {
   User
   Admin
+}
+
+enum NotiType {
+  OrderSuccess
+}
+
+enum OrderStatus {
+  Successful
+  Shipped
+  Delivered
+  Cancelled
+  SystemCancelled
+}
+
+enum PaymentStatus {
+  Pending
+  Error
+  Completed
+  Refunded
 }

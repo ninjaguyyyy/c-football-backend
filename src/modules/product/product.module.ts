@@ -24,6 +24,6 @@ const routes: Routes = [
   imports: [PrismaModule, RedisModule, RouterModule.register(routes)],
   controllers: [ProductController],
   providers: [ProductService, ProductRepo],
-  exports: [],
+  exports: [ProductService],
 })
 export class ProductModule {}

@@ -2,6 +2,9 @@ import { applyDecorators } from "@nestjs/common";
 import { ApiProperty, ApiPropertyOptions } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
   IsBoolean,
   IsDateString,
   IsEmail,
@@ -13,6 +16,7 @@ import {
   IsString,
   Length,
   Min,
+  ValidateNested,
   ValidationArguments,
 } from "class-validator";
 
@@ -157,5 +161,35 @@ export function BooleanField(options?: IDtoDecoratorOption) {
     };
 
     decorators.push(IsBoolean(messageCustom));
+  });
+}
+
+export function ArrayField(entity: object, options?: IDtoDecoratorOption, length?: { min?: number; max?: number }) {
+  return initializeDecorators(options, (decorators: PropertyDecorator[]) => {
+    if (length?.min) {
+      decorators.push(
+        ArrayMinSize(length.min, {
+          message: (args: ValidationArguments) =>
+            CommonHelpers.formatMessageString(MESSAGES.MIN_LENGTH, args.property, args.constraints[0]),
+        })
+      );
+    }
+
+    if (length?.max) {
+      decorators.push(
+        ArrayMaxSize(length.max, {
+          message: (args: ValidationArguments) =>
+            CommonHelpers.formatMessageString(MESSAGES.MAX_LENGTH, args.property, args.constraints[0]),
+        })
+      );
+    }
+
+    decorators.push(
+      IsArray({
+        message: (args: ValidationArguments) => CommonHelpers.formatMessageString(MESSAGES.REQUIRED_ARRAY, args.property),
+      }),
+      ValidateNested({ each: true }),
+      ApiProperty({ type: [entity] })
+    );
   });
 }

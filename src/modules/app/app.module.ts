@@ -9,6 +9,7 @@ import { AppController } from "modules/app/app.controller";
 import { AppService } from "modules/app/app.service";
 import { JwtAuthGuard } from "modules/auth/auth.jwt.guard";
 import { AuthModule } from "modules/auth/auth.module";
+import { CheckoutModule } from "modules/checkout/checkout.module";
 import { ErrorReportModule } from "modules/error-report/error-report.module";
 import { CommentModule } from "modules/product/comment/comment.module";
 import { ProductModule } from "modules/product/product.module";
@@ -33,6 +34,7 @@ import { PrismaModule } from "services/prisma/prisma.module";
     ConfigModule.forRoot({ isGlobal: true, load: [() => GLOBAL_CONFIG] }),
     ProductModule,
     CommentModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [

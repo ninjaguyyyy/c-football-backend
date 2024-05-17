@@ -24,7 +24,7 @@ export class AuthService {
     const userData = await this.userService.findOne({
       email: loginUserDTO.email,
     });
-
+  
     if (!userData) {
       throw new UnauthorizedException(MESSAGES.INVALID_CREDENTIAL);
     }
